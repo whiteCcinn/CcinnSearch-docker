@@ -1,0 +1,41 @@
+cluster.name: "docker-cluster"
+network.host: 0.0.0.0
+
+# minimum_master_nodes need to be explicitly set when bound on a public IP
+# set to 1 to allow single node clusters
+# Details: https://github.com/elastic/elasticsearch/pull/17288
+discovery.zen.minimum_master_nodes: 1
+
+# 禁止系统对ES交换内存
+bootstrap.memory_lock: true
+
+http.type: ssl_netty4
+
+readonlyrest:
+  enable: true
+  ssl:
+    enable: true
+    keystore_file: "server.jks"
+    keystore_pass: server
+    key_pass: server
+
+  access_control_rules:
+
+    - name: "Block 1 - ROOT"
+      type: allow
+      groups: ["admin"]
+
+    - name: "User read only - paper"
+      groups: ["user"]
+      indices: ["paper*"]
+      actions: ["indices:data/read/*"]
+
+  users:
+
+    - username: root
+      auth_key_sha256: cb7c98bae153065db931980a13bd45ee3a77cb8f27a7dfee68f686377acc33f1
+      groups: ["admin"]
+
+    - username: xiaoming
+      auth_key: xiaoming:xiaoming
+      groups: ["user"]

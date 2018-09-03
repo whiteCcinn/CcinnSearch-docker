@@ -1,0 +1,6 @@
+chromedriver
+chromedriver_linux64.zip
+google-chrome-stable_68.0.3440.106-1_amd64.deb
+*/__pycache__/
+*/*/__pycache__/
+*/*/*/__pycache__/
